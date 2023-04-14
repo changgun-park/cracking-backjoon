@@ -1,15 +1,19 @@
-// const fs = require("fs");
-
-// let [count, divisors] = fs
+// var n = require("fs")
 //   .readFileSync("./input.txt")
 //   .toString()
 //   .trim()
-//   .split("\n");
-// const readline = require("readline");
-// const rl = readline.createInterface({
-//   input: process.stdin,
-//   output: process.stdout,
-// });
+//   .split("\n")
+//   .filter(function (e, i) {
+//     return i !== 0;
+//   })[0]
+//   .split(" ")
+//   .map(function (e) {
+//     return parseInt(e);
+//   })
+//   .sort(function (a, b) {
+//     return a - b;
+//   });
+// console.log(n[0] * n[n.length - 1]);
 
 let input = "";
 const readline = require("readline");
@@ -35,10 +39,3 @@ function solution(input) {
 
   console.log(divisors[0] * divisors[divisors.length - 1]);
 }
-
-// divisors = divisors
-//   .split(" ")
-//   .map((el) => Number(el))
-//   .sort((a, b) => a - b);
-
-// console.log(divisors[0] * divisors[divisors.length - 1]);
