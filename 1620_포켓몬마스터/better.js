@@ -6,6 +6,8 @@ var k = s
   .map(function (e) {
     return parseInt(e);
   });
+// 이 객체에 모두 저장
+// { '1': 'pikachu', 'pikachu': '1'}
 var x = {};
 
 s.splice(0, k[0]).forEach(function (e, i) {
