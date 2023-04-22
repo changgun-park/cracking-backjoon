@@ -1,3 +1,8 @@
+/**
+ * isNaN
+ *
+ */
+
 const [params, ...rest] = require("fs")
   .readFileSync("./input.txt")
   .toString()
@@ -16,13 +21,11 @@ const problems = rest.slice(N);
 const answer = [];
 
 for (const problem of problems) {
-  if (parseInt(problem) === +problem) {
-    answer.push(numToStr[problem - 1]);
-  } else {
+  if (isNaN(parseInt(problem))) {
     answer.push(+strToNum[problem] + 1);
+  } else {
+    answer.push(numToStr[problem - 1]);
   }
 }
 
 console.log(answer.join("\n"));
-
-// isNaN이라는 메소드...
