@@ -13,8 +13,8 @@ let found = "";
 for (const key of keys) {
   if (map[key] % 2 === 1) {
     if (found !== "") {
-      answer = "I'm Sorry Hansoo";
-      break;
+      console.log("I'm Sorry Hansoo");
+      return;
     }
     found = key;
   }
@@ -24,8 +24,4 @@ for (const key of keys) {
   }
 }
 
-if (answer === "I'm Sorry Hansoo") {
-  console.log(answer);
-} else {
-  console.log(answer + found + answer.split("").reverse().join(""));
-}
+console.log(answer + found + answer.split("").reverse().join(""));
