@@ -28,8 +28,6 @@ for (let i = 0; i < T; i++) {
   idx = idx + K + 1;
 }
 
-console.log(answer);
-
 function solve(map) {
   let result = 0;
 
@@ -69,3 +67,5 @@ function solve(map) {
   }
   return result;
 }
+
+console.log(answer);

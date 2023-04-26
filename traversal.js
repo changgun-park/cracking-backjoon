@@ -12,7 +12,68 @@ class Graph {
     this.adjacencyList[v2].push(v1);
   }
 
-  recursiveDFS() {}
+  // 정확한 버전
+  iterativeDFS(v) {
+    const result = [];
+    const stack = [v];
+    const visited = {};
+
+    while (stack.length) {
+      const current = stack.pop();
+
+      if (visited[current]) continue;
+
+      visited[current] = true;
+
+      result.push(current);
+
+      this.adjacencyList[current].forEach((neighbor) => {
+        if (!visited[neighbor]) {
+          stack.push(neighbor);
+        }
+      });
+    }
+
+    return result;
+  }
+
+  depthFirstIterative(start) {
+    const stack = [start];
+    const result = [];
+    const visited = { [start]: true };
+    const adjacencyList = this.adjacencyList;
+    let currentVertex;
+
+    while (stack.length) {
+      currentVertex = stack.pop();
+      result.push(currentVertex);
+      this.adjacencyList[currentVertex].forEach((neighbor) => {
+        if (!visited[neighbor]) {
+          visited[neighbor] = true;
+          stack.push(neighbor);
+        }
+      });
+    }
+    return result;
+  }
+
+  recursiveDFS(v) {
+    const result = [];
+    const visited = {};
+    const adjacencyList = this.adjacencyList;
+
+    (function dfs(v) {
+      visited[v] = true;
+      result.push(v);
+      adjacencyList[v].forEach((neighbor) => {
+        if (!visited[neighbor]) {
+          dfs(neighbor);
+        }
+      });
+    })(v);
+
+    return result;
+  }
 
   iterativeBFS(v) {
     const result = [];
@@ -52,4 +113,5 @@ graph.addEdge("b", "f");
 graph.addEdge("c", "d");
 graph.addEdge("f", "g");
 
-graph.iterativeBFS("a");
+console.log(graph.iterativeDFS("a"));
+console.log(graph.depthFirstIterative("a"));
