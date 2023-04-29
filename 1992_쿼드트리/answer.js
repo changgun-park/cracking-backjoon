@@ -1,35 +1,27 @@
-const map = require("fs")
-  .readFileSync("./input.txt")
+const input = require("fs")
+  .readFileSync(process.platform === "linux" ? "/dev/stdin" : "./input.txt")
   .toString()
   .trim()
-  .split("\n")
-  .slice(1)
-  .map((el) => el.split(""));
+  .split("\n");
 
-const result = (function solve(map) {
-  if (map.length === 1) return map[0][0];
+const N = Number(input[0]);
+const map = input.slice(1).map((el) => el.split(""));
 
-  const divider = map.length / 2;
+const answer = (function solve(size, y, x) {
+  if (size === 1) return map[y][x];
 
-  const topLeft = solve(
-    map.slice(0, divider).map((el) => el.slice(0, divider))
-  );
-  const topRight = solve(map.slice(0, divider).map((el) => el.slice(divider)));
-  const bottomLeft = solve(
-    map.slice(divider).map((el) => el.slice(0, divider))
-  );
-  const bottomRight = solve(map.slice(divider).map((el) => el.slice(divider)));
+  const half = size / 2;
+  const result =
+    solve(half, y, x) +
+    solve(half, y, x + half) +
+    solve(half, y + half, x) +
+    solve(half, y + half, x + half);
 
-  if (
-    topLeft === topRight &&
-    topRight === bottomLeft &&
-    bottomLeft === bottomRight &&
-    (topLeft === "1" || topLeft === "0")
-  ) {
-    return topLeft;
-  }
+  if (result === "1111") return "1";
 
-  return `(${topLeft}${topRight}${bottomLeft}${bottomRight})`;
-})(map);
+  if (result === "0000") return "0";
 
-console.log(result);
+  return `(${result})`;
+})(N, 0, 0);
+
+console.log(answer);
