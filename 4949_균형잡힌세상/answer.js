@@ -28,5 +28,3 @@ for (const line of lines) {
   if (stack.length) result.push("no");
   else result.push("yes");
 }
-
-console.log(result.join("\n"));
