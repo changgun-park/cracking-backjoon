@@ -1,85 +1,36 @@
-const [N, ...inputs] = require("fs")
+const [_N, ...inputs] = require("fs")
   .readFileSync(process.platform === "linux" ? "/dev/stdin" : "./input.txt")
   .toString()
   .trim()
   .split("\n");
 
-let last = {
-  team: null,
-  time: null,
-};
+function format(time) {
+  const minutes = Math.floor(time / 60)
+    .toString()
+    .padStart(2, "0");
+  const seconds = (time % 60).toString().padStart(2, "0");
+  return `${minutes}:${seconds}`;
+}
 
-const score = {
-  1: 0,
-  2: 0,
-};
+let scores = [null, 0, 0];
+let times = [null, 0, 0];
+let prevTime = null;
 
-const winTime = {
-  1: 0,
-  2: 0,
-};
-
-// 점수가 앞설 때부터 ~ 점수가 동점이 될때까지
+inputs.push("2 48:00");
 for (const input of inputs) {
-  const [team, current] = input.split(" ");
-  score[team]++;
+  const [team, time] = input.split(" ");
+  let [min, sec] = time.split(":").map(Number);
+  let timeInSeconds = min * 60 + sec;
 
-  // 동점
-  if (score[1] === score[2]) {
-    const winningTeam = last.team;
-    const add = getTimeGap(last.time, current);
-    winTime[winningTeam] += add;
-    last = {
-      team: null,
-      time: null,
-    };
+  if (scores[1] > scores[2]) {
+    times[1] += timeInSeconds - prevTime;
   }
-  // 앞섬
-  if (score[1] > score[2] && last.team !== 1) {
-    last.team = 1;
-    last.time = current;
+  if (scores[2] > scores[1]) {
+    times[2] += timeInSeconds - prevTime;
   }
 
-  if (score[2] > score[1] && last.team !== 2) {
-    last.team = 2;
-    last.time = current;
-  }
+  scores[team]++;
+  prevTime = timeInSeconds;
 }
 
-if (last.team !== null) {
-  const winningTeam = last.team;
-  const add = getTimeGap(last.time, "48:00");
-  winTime[winningTeam] += add;
-}
-
-console.log(parseTime(winTime[1]) + "\n" + parseTime(winTime[2]));
-
-// [time, time]
-function getTimeGap(...times) {
-  const result = [];
-
-  for (const time of times) {
-    let [minutes, seconds] = time.split(":").map(Number);
-    seconds += minutes * 60;
-    result.push(seconds);
-  }
-
-  return result[1] - result[0];
-}
-
-function parseTime(time) {
-  let result = "";
-  const minutes = Math.floor(time / 60);
-  if (minutes < 10) {
-    result += `0${minutes}`;
-  } else {
-    result += minutes;
-  }
-  const seconds = time % 60;
-  if (seconds < 10) {
-    result += `:0${seconds}`;
-  } else {
-    result += ":" + seconds;
-  }
-  return result;
-}
+console.log(format(times[1]) + "\n" + format(times[2]));
